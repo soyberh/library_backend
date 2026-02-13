@@ -8,10 +8,12 @@ app.use(express.json());
 
 // DATABASE CONNECTION
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "library_db"
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "library_db",
+  port: process.env.DB_PORT || 3306,
+  ssl: process.env.DB_HOST ? { rejectUnauthorized: false } : null
 });
 
 db.connect((err) => {
