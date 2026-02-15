@@ -8,13 +8,18 @@ app.use(express.json());
 
 // DATABASE CONNECTION
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "library_db",
-  port: process.env.DB_PORT || 3306,
-  ssl: process.env.DB_HOST ? { rejectUnauthorized: false } : null
-});
+  // Use Railway's variables if they exist, otherwise use local defaults
+  host: process.env.MYSQLHOST || "localhost",
+  user: process.env.MYSQLUSER || "root",
+  password: process.env.MYSQLPASSWORD || "",
+  database: process.env.MYSQLDATABASE || "library_db",
+  port: process.env.MYSQLPORT || 3306, 
+  
+  // REQUIRED for Railway/Cloud connections
+  ssl: {
+    rejectUnauthorized: false
+  }
+}); 
 
 db.connect((err) => {
   if (err) {
